@@ -141,8 +141,12 @@ class GeneticAlgorithm:
             
             # Verificar se usa pelo menos dois compostos diferentes
             compounds_used = set(compound for _, compound in individual.chromosome)
-            if len(individual.chromosome) > 0 and len(compounds_used) < 2:
-                penalty = 1000.0  # Penalidade alta
+            initial_compound = self.simulator.race_data['Compound'].iloc[0]
+            all_compounds_used = compounds_used | {initial_compound}
+            
+            # REGRA F1: Deve usar pelo menos dois compostos diferentes
+            if len(all_compounds_used) < 2:
+                penalty = 10000.0  # Penalidade muito alta para violar regra F1
             
             # Verificar se as voltas de parada são válidas
             pit_laps = [lap for lap, _ in individual.chromosome]

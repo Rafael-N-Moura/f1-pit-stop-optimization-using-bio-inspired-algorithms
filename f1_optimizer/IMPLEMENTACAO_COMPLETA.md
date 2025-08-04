@@ -33,9 +33,9 @@ f1_optimizer/
 ## 📊 Resultados Obtidos
 
 ### Teste Realizado
-- **Cenário**: Monaco Grand Prix 2023, Max Verstappen (VER)
-- **Total de voltas**: 75
-- **Compostos disponíveis**: MEDIUM, INTERMEDIATE
+- **Cenário**: Spain Grand Prix 2024, Lewis Hamilton (HAM)
+- **Total de voltas**: 61
+- **Compostos disponíveis**: SOFT, MEDIUM
 - **Tempo de pit stop**: 25 segundos
 
 ### Performance dos Algoritmos

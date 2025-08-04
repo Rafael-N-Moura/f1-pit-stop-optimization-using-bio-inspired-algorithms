@@ -27,9 +27,9 @@ def main():
     print("=" * 60)
     
     # Configuração do cenário de teste
-    year = 2023
-    race_name = "Brazil Grand Prix"
-    driver_code = "VER"  # Max Verstappen
+    year = 2024
+    race_name = "Spain Grand Prix"
+    driver_code = "HAM"  # Lewis Hamilton
     
     print(f"\nCenário de teste:")
     print(f"Ano: {year}")
@@ -49,9 +49,14 @@ def main():
     
     # Informações da corrida
     race_info = data_handler.get_race_info(race_data)
+    
+    # Obter composto inicial do piloto
+    initial_compound = race_data['Compound'].iloc[0] if not race_data.empty else "N/A"
+    
     print(f"Dados carregados com sucesso!")
     print(f"Total de voltas: {race_info['total_laps']}")
     print(f"Compostos utilizados: {race_info['compounds_used']}")
+    print(f"Composto inicial do piloto: {initial_compound}")
     print(f"Tempo médio de volta: {race_info['avg_lap_time']:.2f}s")
     
     # Passo 2: Inicializar simulador
@@ -84,6 +89,7 @@ def main():
     ga_time = time.time() - start_time
     
     print(f"\nResultados do Algoritmo Genético:")
+    print(f"  Composto inicial: {initial_compound}")
     print(f"  Melhor estratégia: {best_ga_individual.chromosome}")
     print(f"  Tempo total: {1/best_ga_individual.fitness:.2f}s")
     print(f"  Tempo de execução: {ga_time:.2f}s")
@@ -106,6 +112,7 @@ def main():
     aco_time = time.time() - start_time
     
     print(f"\nResultados do Algoritmo ACO:")
+    print(f"  Composto inicial: {initial_compound}")
     print(f"  Melhor estratégia: {best_aco_ant.strategy}")
     print(f"  Tempo total: {best_aco_ant.total_time:.2f}s")
     print(f"  Tempo de execução: {aco_time:.2f}s")
@@ -118,11 +125,13 @@ def main():
     aco_time_total = best_aco_ant.total_time
     
     print(f"Algoritmo Genético:")
+    print(f"  Composto inicial: {initial_compound}")
     print(f"  Tempo total: {ga_time_total:.2f}s")
     print(f"  Estratégia: {best_ga_individual.chromosome}")
     print(f"  Tempo de execução: {ga_time:.2f}s")
     
     print(f"\nAlgoritmo ACO:")
+    print(f"  Composto inicial: {initial_compound}")
     print(f"  Tempo total: {aco_time_total:.2f}s")
     print(f"  Estratégia: {best_aco_ant.strategy}")
     print(f"  Tempo de execução: {aco_time:.2f}s")
@@ -139,13 +148,15 @@ def main():
     
     print(f"\n🏆 MELHOR RESULTADO:")
     print(f"  Algoritmo: {winner}")
+    print(f"  Composto inicial: {initial_compound}")
     print(f"  Tempo total: {best_time:.2f}s")
     print(f"  Estratégia: {best_strategy}")
     
     # Salvar resultados
     save_results(year, race_name, driver_code, race_info, model_params,
                 best_ga_individual, ga_time, ga.get_fitness_history(),
-                best_aco_ant, aco_time, aco.get_fitness_history())
+                best_aco_ant, aco_time, aco.get_fitness_history(),
+                initial_compound)
     
     print(f"\n✅ Análise concluída! Resultados salvos em 'results/'")
     print("=" * 60)
@@ -153,7 +164,7 @@ def main():
 
 def save_results(year, race_name, driver_code, race_info, model_params,
                 best_ga_individual, ga_time, ga_history,
-                best_aco_ant, aco_time, aco_history):
+                best_aco_ant, aco_time, aco_history, initial_compound):
     """
     Salva os resultados da análise.
     """
@@ -166,7 +177,8 @@ def save_results(year, race_name, driver_code, race_info, model_params,
             'year': year,
             'race_name': race_name,
             'driver_code': driver_code,
-            'race_info': race_info
+            'race_info': race_info,
+            'initial_compound': initial_compound
         },
         'model_parameters': model_params,
         'genetic_algorithm': {

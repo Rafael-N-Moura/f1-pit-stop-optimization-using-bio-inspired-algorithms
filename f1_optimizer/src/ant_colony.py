@@ -99,9 +99,26 @@ class AntColonyOptimizer:
                     current_lap, current_compound, current_tyre_age
                 )
                 
-                # Escolher decisão baseada em probabilidades
-                decision_idx = self._choose_decision(probabilities)
-                decision = self.decisions[decision_idx]
+                # REGRA F1: Se ainda não usou dois compostos, forçar pelo menos uma parada
+                compounds_used = set(compound for _, compound in ant.strategy)
+                initial_compound = self.simulator.race_data['Compound'].iloc[0]
+                all_compounds_used = compounds_used | {initial_compound}
+                
+                # Se falta pouco para o fim e ainda não usou dois compostos, forçar parada
+                if len(all_compounds_used) < 2 and current_lap >= self.total_laps - 10:
+                    # Forçar escolha de um composto diferente
+                    available_compounds = [d for d in self.decisions if d != 'CONTINUE' and d != current_compound]
+                    if available_compounds:
+                        compound = random.choice(available_compounds)
+                        decision = compound
+                    else:
+                        # Escolher decisão baseada em probabilidades
+                        decision_idx = self._choose_decision(probabilities)
+                        decision = self.decisions[decision_idx]
+                else:
+                    # Escolher decisão baseada em probabilidades
+                    decision_idx = self._choose_decision(probabilities)
+                    decision = self.decisions[decision_idx]
             
             if decision == 'CONTINUE':
                 # Continuar com o pneu atual

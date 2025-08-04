@@ -15,7 +15,9 @@ O objetivo é encontrar a estratégia de pit stop que minimize o tempo total da 
 ```
 f1_optimizer/
 ├── main.py                 # Script principal de execução
-├── visualize_results.py    # Script de visualização
+├── optimize_and_analyze.py # Script de otimização e análise estatística
+├── visualize_results.py    # Script de visualização básica
+├── visualize_statistics.py # Script de visualização estatística
 ├── requirements.txt        # Dependências do projeto
 ├── README.md              # Documentação
 ├── data/
@@ -26,7 +28,9 @@ f1_optimizer/
     ├── data_handler.py    # Módulo de carregamento de dados
     ├── race_simulator.py  # Simulador de corrida
     ├── genetic_algorithm.py # Implementação do GA
-    └── ant_colony.py      # Implementação do ACO
+    ├── ant_colony.py      # Implementação do ACO
+    ├── parameter_optimizer.py # Otimizador de parâmetros
+    └── statistical_analyzer.py # Analisador estatístico
 ```
 
 ## 🚀 Instalação e Configuração
@@ -70,15 +74,32 @@ python main.py
 python visualize_results.py
 ```
 
+### Otimização de Parâmetros e Análise Estatística
+
+1. **Execute a otimização e análise estatística:**
+```bash
+python optimize_and_analyze.py
+```
+
+2. **Para teste rápido (menos execuções):**
+```bash
+python optimize_and_analyze.py --quick
+```
+
+3. **Visualize os resultados estatísticos:**
+```bash
+python visualize_statistics.py
+```
+
 ### Configuração de Cenários
 
 Para testar diferentes cenários, edite as variáveis no início do `main.py`:
 
 ```python
 # Configuração do cenário de teste
-year = 2023
-race_name = "Monaco Grand Prix"
-driver_code = "VER"  # Max Verstappen
+year = 2024
+race_name = "Spain Grand Prix"
+driver_code = "HAM"  # Lewis Hamilton
 ```
 
 ### Parâmetros dos Algoritmos
@@ -213,6 +234,32 @@ Implementação da Otimização por Colônia de Formigas.
    - Parâmetros ajustáveis
    - Suporte a diferentes corridas e pilotos
 
+### Novas Funcionalidades (Otimização e Estatística)
+
+5. **Otimização de Parâmetros**
+   - Busca em grade para encontrar melhores parâmetros
+   - Busca aleatória para exploração rápida
+   - Otimização bayesiana (planejada)
+   - Salvamento automático de parâmetros otimizados
+
+6. **Análise Estatística Robusta**
+   - Múltiplas execuções (30 por algoritmo)
+   - Testes estatísticos (t-Student, Wilcoxon, Mann-Whitney)
+   - Análise de tamanho do efeito (Cohen's d)
+   - Testes de normalidade (Shapiro-Wilk)
+
+7. **Visualizações Estatísticas**
+   - Boxplots de distribuição
+   - Histogramas de frequência
+   - Gráficos de convergência
+   - Análise de estratégias encontradas
+
+8. **Relatórios Científicos**
+   - Relatórios estatísticos detalhados
+   - Recomendações baseadas em evidências
+   - Métricas de qualidade e consistência
+   - Documentação de metodologia estatística
+
 ## 📊 Exemplo de Saída
 
 ```
@@ -221,9 +268,9 @@ OTIMIZADOR DE ESTRATÉGIAS DE PIT STOP - FÓRMULA 1
 ============================================================
 
 Cenário de teste:
-Ano: 2023
-Corrida: Monaco Grand Prix
-Piloto: VER
+Ano: 2024
+Corrida: Spain Grand Prix
+Piloto: HAM
 ----------------------------------------
 
 1. Carregando dados da corrida...

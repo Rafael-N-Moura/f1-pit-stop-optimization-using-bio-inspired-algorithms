@@ -158,9 +158,9 @@ class RaceSimulator:
             Tempo total da corrida em segundos
         """
         if not strategy:
-            # Estratégia sem paradas - usar composto inicial
-            initial_compound = self.race_data['Compound'].iloc[0]
-            return self._simulate_no_pit_strategy(initial_compound)
+            # REGRA F1: Estratégia sem paradas é inválida - deve usar pelo menos dois compostos
+            # Retornar tempo muito alto para penalizar
+            return float('inf')
         
         # Ordenar estratégia por volta
         strategy = sorted(strategy, key=lambda x: x[0])
@@ -169,6 +169,15 @@ class RaceSimulator:
         penalty = 0
         if len(strategy) > 3:
             penalty = (len(strategy) - 3) * 1000  # Penalização alta por excesso
+        
+        # REGRA F1: Verificar se usa pelo menos dois compostos diferentes
+        compounds_used = set(compound for _, compound in strategy)
+        initial_compound = self.race_data['Compound'].iloc[0]
+        all_compounds_used = compounds_used | {initial_compound}
+        
+        if len(all_compounds_used) < 2:
+            # Violação da regra F1 - penalização muito alta
+            penalty += 50000.0
         
         # Simular corrida
         total_time = 0
