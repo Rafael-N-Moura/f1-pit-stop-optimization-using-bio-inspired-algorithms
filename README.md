@@ -550,5 +550,3 @@ Para contribuir com o projeto:
 Este projeto está sob a licença MIT. Veja o arquivo LICENSE para mais detalhes.
 
 ---
-
-**Desenvolvido com ❤️ para otimização científica de estratégias de F1** 🏎️📊 
